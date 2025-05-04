@@ -1,8 +1,7 @@
-# Step 9: requirements.txt
 fastapi
 uvicorn
-sqlalchemy
-psycopg2-binary
-python-dotenv
-aioredis
-cohere
+redis
+psycopg2  # for PostgreSQL
+asyncpg  # for async PostgreSQL if you choose async DB operations
+cohere  # for Cohere API
+pytest  # for testing

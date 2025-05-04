@@ -1,32 +1,24 @@
-# Step 3: backend/core/game_logic.py
-from collections import defaultdict
-from typing import Optional
+# backend/core/game_logic.py
+from collections import defaultdict, deque
+import uuid
 
-class Node:
-    def __init__(self, value: str):
-        self.value = value
-        self.next = None
-
-class GameSession:
+class GameSessionManager:
     def __init__(self):
-        self.head = None
-        self.tail = None
-        self.guess_set = set()
-        self.history = []
+        self.sessions = defaultdict(lambda: {"seed": "Rock", "guesses": deque()})
 
-    def add_guess(self, guess: str) -> bool:
-        guess = guess.lower()
-        if guess in self.guess_set:
-            return False
-        node = Node(guess)
-        if not self.head:
-            self.head = self.tail = node
-        else:
-            self.tail.next = node
-            self.tail = node
-        self.guess_set.add(guess)
-        self.history.append(guess)
-        return True
+    def create_session(self):
+        session_id = str(uuid.uuid4())
+        self.sessions[session_id]  # Initializes it
+        return session_id
 
-    def get_last_n_guesses(self, n: int = 5):
-        return self.history[-n:]
+    def add_guess(self, session_id, guess):
+        self.sessions[session_id]["guesses"].append(guess.lower())
+
+    def already_guessed(self, session_id, guess):
+        return guess.lower() in self.sessions[session_id]["guesses"]
+
+    def get_history(self, session_id):
+        return list(self.sessions[session_id]["guesses"])
+
+    def get_seed_word(self, session_id):
+        return self.sessions[session_id]["seed"]

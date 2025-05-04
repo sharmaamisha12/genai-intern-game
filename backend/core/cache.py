@@ -1,14 +1,13 @@
+# backend/core/cache.py
 import aioredis
 import os
 
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost")
+redis = aioredis.from_url("redis://localhost")
 
-redis = aioredis.from_url(REDIS_URL, decode_responses=True)
-
-async def get_cached_result(guess: str, target: str) -> str | None:
-    key = f"{guess.lower()}:{target.lower()}"
+async def get_cached_verdict(seed, guess):
+    key = f"{seed}:{guess}"
     return await redis.get(key)
 
-async def set_cached_result(guess: str, target: str, result: str):
-    key = f"{guess.lower()}:{target.lower()}"
-    await redis.set(key, result, ex=3600)
+async def cache_verdict(seed, guess, verdict):
+    key = f"{seed}:{guess}"
+    await redis.set(key, verdict, ex=3600)

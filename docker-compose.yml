@@ -1,28 +1,23 @@
-version: '3'
-
+# docker-compose.yml
+version: "3.9"
 services:
-  web:
+  app:
     build: .
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     depends_on:
       - redis
       - db
-    environment:
-      - COHERE_API_KEY=ZexKVKGVm6Lg2ILnOofMumoV2mGT0o7prBL5l73X
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
-      - REDIS_URL=redis://redis:6379
-    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000
-
   redis:
-    image: redis:alpine
+    image: redis:7
     ports:
       - "6379:6379"
-
   db:
-    image: postgres
-    restart: always
+    image: postgres:14
     environment:
+      POSTGRES_DB: game_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
