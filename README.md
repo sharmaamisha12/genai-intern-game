@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 🧠 GenAI Interactive Guessing Game
 This is a Generative AI-powered interactive game inspired by the "What Beats Rock" concept. Players guess words that beat a seed word (like "Rock") and get AI feedback. The project mixes real-time backend infra with LLM integration, caching, concurrency handling, and Dockerized deployment.
 
@@ -110,3 +111,7 @@ Example:
 📄 License
     MIT License
 
+=======
+# genai-intern-game
+🎮 Build a Generative AI-powered interactive game . It demonstrates backend integration of LLMs using Cohere API, featuring a “What Beats Rock” logic engine, caching, moderation, linked list tracking, and a lightweight frontend. Built with Python, FastAPI, PostgreSQL, Redis, and Docker.
+>>>>>>> cb396770487c4fc0fa7d13869a011159b9b5e2e3
