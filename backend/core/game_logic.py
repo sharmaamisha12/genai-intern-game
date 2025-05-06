@@ -1,24 +1,18 @@
-# backend/core/game_logic.py
-from collections import defaultdict, deque
-import uuid
+from collections import deque
 
-class GameSessionManager:
+class GameSession:
     def __init__(self):
-        self.sessions = defaultdict(lambda: {"seed": "Rock", "guesses": deque()})
+        self.guesses = deque()
+        self.guess_set = set()
+        self.score = 0
 
-    def create_session(self):
-        session_id = str(uuid.uuid4())
-        self.sessions[session_id]  # Initializes it
-        return session_id
+    def add_guess(self, guess: str) -> bool:
+        if guess.lower() in self.guess_set:
+            return False
+        self.guesses.append(guess)
+        self.guess_set.add(guess.lower())
+        self.score += 1
+        return True
 
-    def add_guess(self, session_id, guess):
-        self.sessions[session_id]["guesses"].append(guess.lower())
-
-    def already_guessed(self, session_id, guess):
-        return guess.lower() in self.sessions[session_id]["guesses"]
-
-    def get_history(self, session_id):
-        return list(self.sessions[session_id]["guesses"])
-
-    def get_seed_word(self, session_id):
-        return self.sessions[session_id]["seed"]
+    def get_history(self):
+        return list(self.guesses)

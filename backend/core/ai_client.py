@@ -1,17 +1,20 @@
-# backend/core/ai_client.py
 import os
 import cohere
+from dotenv import load_dotenv
 
-API_KEY = os.getenv("COHERE_API_KEY")
-co = cohere.Client(API_KEY)
+load_dotenv()
 
-def get_prompt(seed: str, guess: str, persona: str = "serious") -> str:
-    if persona == "cheery":
-        return f"Hey buddy! Does \"{guess}\" beat \"{seed}\" in a fun or clever way?"
-    else:
-        return f"Does \"{guess}\" logically or metaphorically beat \"{seed}\"? Answer YES or NO only."
+co = cohere.Client(os.getenv("COHERE_API_KEY"))
 
-async def validate_guess(seed: str, guess: str, persona: str) -> str:
-    prompt = get_prompt(seed, guess, persona)
-    response = co.generate(prompt=prompt, max_tokens=5)
-    return response.generations[0].text.strip()
+async def validate_guess_with_ai(seed_word: str, guess: str, persona: str = "Serious") -> bool:
+    prompt = f"Does '{guess}' beat '{seed_word}' in a creative game? Answer YES or NO."
+    if persona == "Cheery":
+        prompt = f"Hey there! In our fun game, does '{guess}' beat '{seed_word}'? Please reply with YES or NO."
+
+    response = co.chat(
+        model="command-a-03-2025",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    answer = response.message.content[0].text.strip().upper()
+    return answer.startswith("YES")

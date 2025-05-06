@@ -1,11 +1,15 @@
-# tests/e2e_duplicate_test.py
-import requests
+import pytest
+from fastapi.testclient import TestClient
+from backend.main import app
 
-BASE = "http://localhost:8000"
+client = TestClient(app)
 
-def test_duplicate_guess_game_over():
-    sid = requests.post(f"{BASE}/start").json()["session_id"]
-    first = requests.post(f"{BASE}/guess", params={"session_id": sid, "guess": "Paper"}).json()
-    second = requests.post(f"{BASE}/guess", params={"session_id": sid, "guess": "Paper"}).json()
-    assert "Game Over" in second["message"]
-git init
+def test_duplicate_guess():
+    session_id = "test_session"
+    seed = "Rock"
+    guess = "Paper"
+
+    response1 = client.post("/play", json={"session_id": session_id, "seed": seed, "guess": guess})
+    response2 = client.post("/play", json={"session_id": session_id, "seed": seed, "guess": guess})
+
+    assert response2.json()["message"] == "Game Over"

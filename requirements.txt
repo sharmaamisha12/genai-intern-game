@@ -1,7 +1,6 @@
 fastapi
 uvicorn
-redis
-psycopg2  # for PostgreSQL
-asyncpg  # for async PostgreSQL if you choose async DB operations
-cohere  # for Cohere API
-pytest  # for testing
+cohere
+python-dotenv
+aioredis
+pytest

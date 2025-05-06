@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>What Beats Rock</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>What Beats Rock?</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="game-container">
-    <h1>What Beats Rock? 🤔</h1>
-    <select id="persona">
-      <option value="serious">Serious Host</option>
-      <option value="cheery">Cheery Host</option>
-    </select>
-    <input type="text" id="guessInput" placeholder="Enter your guess..." />
+    <h1>What Beats Rock?</h1>
+    <input type="text" id="guessInput" placeholder="Your guess">
     <button onclick="submitGuess()">Submit</button>
-    <div id="result"></div>
-    <div id="score">Score: 0</div>
-    <div id="history"><strong>Last 5 Guesses:</strong> <ul id="historyList"></ul></div>
-    <div id="globalCount"></div>
-    <div id="gameOver" class="hidden">💥 Game Over 💥</div>
-  </div>
-  <script src="app.js"></script>
+    <div id="feedback"></div>
+    <script src="app.js"></script>
 </body>
 </html>
